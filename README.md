@@ -1,2 +1,3 @@
-# Git-training-
-created for traing
+# Git-DEMO 
+##Introduction
+created for Demo purpose
