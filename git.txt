@@ -1,0 +1,199 @@
+______________________________________________________________________________________________________________________________________________________
+GIT Environment configuration
+______________________________________________________________________________________________________________________________________________________
+git help			#to get help
+git help config
+git config --global user.name "Your Name"
+git config --global user.email "you@someplace.com"
+git config --global --list		##Listing All Global Configuration Settings
+cat ~/.gitconfig				##Seeing Git's User-based Config file
+
+git config --global --remove-section user		## to remove user from git
+git config --global --unset-all user.name
+
+
+git config --global color.ui true
+git config --global color.status auto
+git config --global color.branch auto
+
+git config --global branch.autosetuprebase always 
+git config --global core.editor vim
+git config --global merge.tool vimdiff
+
+______________________________________________________________________________________________________________________________________________________		
+
+git init git-demo				## initialise git-demo repository as git repository
+git init [project-name]			##project-name parameter is optional. If not supplied, Git will initialize the current directory.
+git add .gitignore				##ignore files listed in .gitignore while adding file to staging area
+vi README.md
+git status									##Shows which files have been modified in the working directory vs Git's staging area.
+git add README.md							##Adds the new or newly modified file-name to Git's staging area (index).
+git add -u									##The -u parameter will recursively update Git's staging area regarding deleted/moved files outside of Git.
+git commit -m "Initial commit"				##Commits all files currently in Git's staging area. The -m parameter allows for a commit message directly from the command line.
+git commit -a -m 'Added Makefile '			## Automatically detect the modified files
+git status -u     							## status of the untracked file
+git status -s								## status in short 
+git clone https://arunrapr5@bitbucket.org/arunrapr5/nirmala.git		##Cloning bitbucket repo to local
+git commit -am "Awesome commit message"								##Use the -a parameter with the git commit command to directly commit newly modified tracked files. Warning: Only do this for small changes. Tracked files are files that have been previously added to Git (committed or staged).
+git add .															##The period parameter for the git add command will recursively add all new and newly modified files.
+git log 															##shows all the commit details
+git log --oneline													##to get commit details in on eline
+git show commitID												## shows detail of the commitID
+CommitID will be 40 digit long
+
+git diff											##execute command before adding to staging area. This will provide difference between previous file & modified file.
+git commit --amend -m 'Once again testing ammend'  	##The amend operation changes the last commit including your commit message; it creates a new commit ID.
+git remote add origin BitBucketURL					##we have to add the repository as a remote, this is a one-time operation. After this, we can safely push the changes to the remote repository.
+
+##Note: By default, Git pushes only to matching branches: For every branch that exists on the local side, the remote side is updated if a branch with the same name already exists there.
+
+git push origin master								##every time we push changes to the origin master branch, use appropriate branch name according to your requirement.								
+git pull											##synchronize his local repository with the remote one.	
+
+__________________________________________________________________________________________________________________________________________________
+TO REVERT CHECKOUT
+__________________________________________________________________________________________________________________________________________________
+git reflog														##comand to get comit hash code
+git revert <commit hash>										## it removes only activities done in the particular commit
+git revert HEAD
+git revert <HEAD~n>									##where n denotes selected commit counted from HEAD i.e. to revert to 3rd commit counted from HEAD use command: git revert HEAD~3
+
+
+_______________________________________________________________________________________________________________________________________________________
+STASH
+__________________________________________________________________________________________________________________________________________________
+git stash									## the stash operation takes your modified tracked files, stages changes, and saves them on a stack of unfinished changes that you can reapply at any time.
+git stash list          					## list of stash
+git stash pop								## to remove the changes from the stack and place them in the current working directory.
+__________________________________________________________________________________________________________________________________________________
+
+git mv sourcefile destinationPath	eg:git mv string.c src/
+git mv oldfilename newfilename		eg:git mv string.c string_operations.c
+git checkout filename   					## Revert Uncommitted changes & Even you can get deleted file by using this command before commiting
+git checkout -- file-name					##Following command will back out any changes made to the specified file and replace it with the version last committed in Git
+git reset HEAD --filename					##to remove file from staging area
+git rm --cached filename					##Following command will "unstage" the specified file from Git's staging area (aka index).
+git log -5									##output last 5 commits
+cat .git/refs/heads/master
+______________________________________________________________________________________________________________________________________________________
+RESET
+_______________________________________________________________________________________________________________________________________________________
+Soft reset: If we use Git reset command with --soft option followed by commit ID, then it will reset the HEAD pointer only without destroying anything.
+	git reset --soft HEAD~					##reset the HEAD pointer back by one position
+	git reset --soft HEAD CommitID			##reset the HEAD pointer to mentioned commitID
+	
+Mixed Reset: Git reset with --mixed option reverts those changes from the staging area that have not been committed yet. It reverts the changes from the staging area only. 
+The actual changes made to the working copy of the file are unaffected. The default Git reset is equivalent to the git reset -- mixed.
+	git reset HEAD --filename
+
+	
+Hard Reset: If you use --hard option with the Git reset command, it will clear the staging area; it will reset the HEAD pointer to the latest commit of the specific commit ID and delete the local file changes too.
+	git reset --hard commitID				##reset the HEAD pointer to mentioned commitID
+	git push -f  
+______________________________________________________________________________________________________________________________________________________
+TAGS
+______________________________________________________________________________________________________________________________________________________
+creating Tag
+git tag -a 'TagName' -m 'Tagged code' HEAD			##provides a tag name with -a option and provides a tag message with –m option 
+													##HEAD represent recent commit ID 
+git tag -a 'TagName' -m 'Tagged code' CommitID		## to tag particular commit ID
+														
+View Tags
+git tag -l           									##Listing tags
+git show TagName										## Details of the tags
+
+Delete Tags
+git tag -d TagName
+______________________________________________________________________________________________________________________________________________________
+Patch
+_____________________________________________________________________________________________________________________________________________________
+git format-patch -1									##creates .patch files inside the current working directory
+git apply file.patch								        ## Applying patch
+git diff											##check difference
+
+__________________________________________________________________________________________________________________________________________________
+Branch
+__________________________________________________________________________________________________________________________________________________
+git branch branch-name				##create branches
+git branch							## listing branches
+git checkout Branch-name			##Switching between branches
+git checkout -b test_branch			##-b flag is used to create & switch branch at a time
+git branch -D test_branch			##delete branch
+git branch -m new_branch wchar_support		##to rename branch
+
+git merge branch-name				## you have to be in master to merge from another branch to master
+
+git rebase branch-name				##you have to be in master to rebase changes from any other branch
+__________________________________________________________________________________________________________________________________________________
+CHERRY-PICK
+__________________________________________________________________________________________________________________________________________________
+git cherry-pick commitID			## To get specific commit
+git cherry-pick -edit commitID			##Passing the -edit option will cause git to prompt for a commit message before applying the cherry-pick operation
+git cherry-pick --no-commit commitID		##The --no-commit option will execute the cherry pick but instead of making a new commit it will move the contents of the target commit into the working directory of the current branch.
+git cherry-pick --signoff commitID		##The --signoff option will add a 'signoff' signature line to the end of the cherry-pick commit message
+
+__________________________________________________________________________________________________________________________________________________
+
+Git conflicts/Resolve 
+ 
+__________________________________________________________________________________________________________________________________________________
+TO SSH TO GitHub
+__________________________________________________________________________________________________________________________________________________
+mkdir .ssh
+cd .ssh
+pwd
+ssh-keygen -t rsa -C "jason@jasongtaylor.com"
+vi id_rsa.pub
+ssh -T git@github.com
+__________________________________________________________________________________________________________________________________________________
+GIT HUB
+__________________________________________________________________________________________________________________________________________________
+git remote add origin git@github.com:scm-ninja/git-demo.git 	##Using git remote add command allows us to associate a remote repository. Normally, you want to paste in the full URL for the remote repository given to you by your Git host (GitHub). By convention, the first or primary remote repository is named origin.
+git remote -v													##The git remote command lists the names of all the remote repositories and the -v parameter (verbose) will display the full URL of the remote repository for each remote name listed
+git push -u origin master										##The git push sends all your local changes (commits) on branch branch-name to the remote named remote-name. The -u parameter is needed the first time you push a branch to the remote.
+git push origin master
+git pull origin master											##The git pull receives all your remote changes (commits) from the remote named remote-name and on branch branch-name.
+
+ORIGIN is the first or primary remote location name used by convention in Git
+__________________________________________________________________________________________________________________________________________________
+
+
+httP
+
+
+
+
+
+
+
+
+
+
+	
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
